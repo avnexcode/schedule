@@ -1,0 +1,157 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+model User {
+    id       String @id @default(cuid())
+    username String @unique @db.VarChar(50)
+    name     String @db.VarChar(150)
+    email    String @unique @db.VarChar(150)
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("users")
+}
+
+model Major {
+    id   String @id @default(cuid())
+    name String @unique @db.VarChar(50)
+
+    schedules       Schedule[]
+    specializations Specialization[]
+    lectures        Lecture[]
+    rooms           Room[]
+    courses         Course[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("majors")
+}
+
+model Specialization {
+    id   String @id @default(cuid())
+    name String @unique @db.VarChar(50)
+
+    major_id String
+    major    Major  @relation(fields: [major_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("specializations")
+}
+
+model Lecture {
+    id   String @id @default(cuid())
+    name String @db.VarChar(150)
+
+    major_id String
+    major    Major  @relation(fields: [major_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("lectures")
+}
+
+model Room {
+    id   String @id @default(cuid())
+    name String @unique @db.VarChar(50)
+
+    major_id String
+    major    Major  @relation(fields: [major_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("rooms")
+}
+
+model Course {
+    id   String @id @default(cuid())
+    name String @unique @db.VarChar(50)
+
+    major_id String
+    major    Major  @relation(fields: [major_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("courses")
+}
+
+model Batch {
+    id    String @id @default(cuid())
+    label String @unique
+    year  Int
+
+    schedules Schedule[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("batchs")
+}
+
+model Time {
+    id         String @id @default(cuid())
+    start_time String
+    end_time   String
+
+    scheduls Schedule[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("times")
+}
+
+enum Day {
+    MONDAY
+    TUESDAY
+    WEDNESDAY
+    THURSDAY
+    FRIDAY
+}
+
+model Schedule {
+    id  String @id @default(cuid())
+    day Day
+
+    home_works HomeWork[]
+
+    time_id  String
+    major_id String
+    batch_id String
+
+    time  Time  @relation(fields: [time_id], references: [id])
+    major Major @relation(fields: [major_id], references: [id])
+    batch Batch @relation(fields: [batch_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("schedules")
+}
+
+model HomeWork {
+    id          String @id @default(cuid())
+    dead_line   String
+    description String @db.Text
+
+    schedule_id String
+    schedule    Schedule @relation(fields: [schedule_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("home_works")
+}
