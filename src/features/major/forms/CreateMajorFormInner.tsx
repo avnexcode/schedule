@@ -41,6 +41,21 @@ export const CreateMajorFormInner = ({
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="alias"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              Alias <span className="text-red-500">*</span>
+            </FormLabel>
+            <FormControl>
+              <Input placeholder="Input major alias" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </form>
   );
 };

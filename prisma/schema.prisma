@@ -21,8 +21,9 @@ model User {
 }
 
 model Major {
-    id   String @id @default(cuid())
-    name String @unique @db.VarChar(50)
+    id    String @id @default(cuid())
+    name  String @unique @db.VarChar(50)
+    alias String @unique @db.VarChar(10)
 
     schedules       Schedule[]
     specializations Specialization[]
@@ -37,8 +38,11 @@ model Major {
 }
 
 model Specialization {
-    id   String @id @default(cuid())
-    name String @unique @db.VarChar(50)
+    id    String @id @default(cuid())
+    name  String @unique @db.VarChar(50)
+    alias String @unique @db.VarChar(10)
+
+    schedules Schedule[]
 
     major_id String
     major    Major  @relation(fields: [major_id], references: [id])
@@ -49,9 +53,15 @@ model Specialization {
     @@map("specializations")
 }
 
+enum Gender {
+    MALE
+    FEMALE
+}
+
 model Lecture {
-    id   String @id @default(cuid())
-    name String @db.VarChar(150)
+    id     String @id @default(cuid())
+    name   String @db.VarChar(150)
+    gender Gender
 
     major_id String
     major    Major  @relation(fields: [major_id], references: [id])
@@ -128,13 +138,15 @@ model Schedule {
 
     home_works HomeWork[]
 
-    time_id  String
-    major_id String
-    batch_id String
+    time_id           String
+    major_id          String
+    batch_id          String
+    specialization_id String
 
-    time  Time  @relation(fields: [time_id], references: [id])
-    major Major @relation(fields: [major_id], references: [id])
-    batch Batch @relation(fields: [batch_id], references: [id])
+    time           Time           @relation(fields: [time_id], references: [id])
+    major          Major          @relation(fields: [major_id], references: [id])
+    batch          Batch          @relation(fields: [batch_id], references: [id])
+    specialization Specialization @relation(fields: [specialization_id], references: [id])
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt

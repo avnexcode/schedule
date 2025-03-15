@@ -17,6 +17,7 @@ export const CreateSpecializationForm = () => {
   const form = useForm<CreateSpecializationFormSchema>({
     defaultValues: {
       name: "",
+      alias: "",
       major_id: "",
     },
     resolver: zodResolver(createSpecializationFormSchema),

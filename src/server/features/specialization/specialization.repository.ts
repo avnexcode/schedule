@@ -33,9 +33,11 @@ export const specializationRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
         major: {
           select: {
             name: true,
+            alias: true,
           },
         },
       },
@@ -60,10 +62,12 @@ export const specializationRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
         major: {
           select: {
             id: true,
             name: true,
+            alias: true,
           },
         },
       },
@@ -78,10 +82,12 @@ export const specializationRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
         major: {
           select: {
             id: true,
             name: true,
+            alias: true,
           },
         },
       },
@@ -112,6 +118,7 @@ export const specializationRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
         created_at: true,
       },
     });
@@ -126,6 +133,7 @@ export const specializationRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
         updated_at: true,
       },
     });

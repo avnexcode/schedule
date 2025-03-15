@@ -41,6 +41,21 @@ export const EditSpecializationFormInner = ({
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="alias"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              Alias <span className="text-red-500">*</span>
+            </FormLabel>
+            <FormControl>
+              <Input placeholder="Input specialization alias" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <MajorSelect<UpdateSpecializationFormSchema>
         name="major_id"
         label="Select Major"

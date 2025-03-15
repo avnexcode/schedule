@@ -30,6 +30,7 @@ export const majorRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
       },
     });
 
@@ -52,6 +53,7 @@ export const majorRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
       },
     });
 
@@ -64,6 +66,7 @@ export const majorRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
       },
     });
 
@@ -88,6 +91,7 @@ export const majorRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
         created_at: true,
       },
     });
@@ -102,6 +106,7 @@ export const majorRepository = {
       select: {
         id: true,
         name: true,
+        alias: true,
         updated_at: true,
       },
     });

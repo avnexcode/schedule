@@ -17,6 +17,7 @@ export const CreateMajorForm = () => {
   const form = useForm<CreateMajorFormSchema>({
     defaultValues: {
       name: "",
+      alias: "",
     },
     resolver: zodResolver(createMajorFormSchema),
   });

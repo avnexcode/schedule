@@ -23,6 +23,7 @@ export const EditMajorForm = ({ majorId }: EditMajorFormProps) => {
   const form = useForm({
     defaultValues: {
       name: "",
+      alias: "",
     },
     resolver: zodResolver(updateMajorFormSchema),
   });
@@ -33,7 +34,7 @@ export const EditMajorForm = ({ majorId }: EditMajorFormProps) => {
 
   useEffect(() => {
     if (major) {
-      form.reset({ name: major.name });
+      form.reset({ name: major.name, alias: major.alias });
     }
   }, [form, major]);
 
