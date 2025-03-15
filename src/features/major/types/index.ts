@@ -9,5 +9,6 @@ export type MajorData = Prisma.MajorGetPayload<{
   select: {
     id: true;
     name: true;
+    alias: true;
   };
 }>;

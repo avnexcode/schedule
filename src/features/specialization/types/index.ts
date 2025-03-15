@@ -16,6 +16,7 @@ export type SpecializationData = Prisma.SpecializationGetPayload<{
   select: {
     id: true;
     name: true;
+    alias: true;
     major: {
       select: {
         name: true;

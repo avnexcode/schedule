@@ -42,7 +42,10 @@ export const SpecializationTable = ({
             <TableRow>
               <TableCell>{index + 1}</TableCell>
               <TableCell className="capitalize">
-                {specialization.name}
+                {specialization.name}{" "}
+                <span className="font-bold uppercase">
+                  ({specialization.alias})
+                </span>
               </TableCell>
               <TableCell className="capitalize">
                 {specialization.major.name}
