@@ -16,6 +16,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+import { env } from "@/configs/env";
 
 export function Sidebar() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export function Sidebar() {
     <SidebarComponent collapsible="icon">
       <SidebarContent>
         <SidebarHeader className="text-nowrap py-4 text-center text-xl font-bold">
-          <Link href={"/"}>Avnexcode</Link>
+          <Link href={"/"}>{env.NEXT_PUBLIC_APP_NAME}</Link>
         </SidebarHeader>
         {renderElements({
           of: sidebarMenu,
