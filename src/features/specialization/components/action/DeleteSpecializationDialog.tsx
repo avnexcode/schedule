@@ -14,23 +14,27 @@ import { api } from "@/utils";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-type DeleteMajorDialogProps = {
-  majorId: string;
+type DeleteSpecializationDialogProps = {
+  specializationId: string;
 };
 
-export const DeleteMajorDialog = ({ majorId }: DeleteMajorDialogProps) => {
-  const apiUtils = api.useUtils().major;
+export const DeleteSpecializationDialog = ({
+  specializationId,
+}: DeleteSpecializationDialogProps) => {
+  const apiUtils = api.useUtils().specialization;
 
-  const { mutate: deleteMajor, isPending: isDeleteMajorPending } =
-    api.major.delete.useMutation({
-      onSuccess: () => {
-        toast.success("Delete major successfully");
-        void apiUtils.invalidate();
-      },
-    });
+  const {
+    mutate: deleteSpecialization,
+    isPending: isDeleteSpecializationPending,
+  } = api.specialization.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Delete specialization successfully");
+      void apiUtils.invalidate();
+    },
+  });
 
   const handleDelete = () => {
-    return deleteMajor({ id: majorId });
+    return deleteSpecialization({ id: specializationId });
   };
 
   return (
@@ -45,14 +49,14 @@ export const DeleteMajorDialog = ({ majorId }: DeleteMajorDialogProps) => {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            major and remove your data from our servers.
+            specialization and remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
-            disabled={isDeleteMajorPending}
+            disabled={isDeleteSpecializationPending}
           >
             Continue
           </AlertDialogAction>

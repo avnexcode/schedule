@@ -1,14 +1,17 @@
 import { db } from "@/server/db/prisma";
-import type { CreateMajorRequest, UpdateMajorRequest } from "@/server/models";
+import type {
+  CreateSpecializationRequest,
+  UpdateSpecializationRequest,
+} from "@/server/models";
 import type { QueryParams } from "@/server/types/api";
 
-export const majorRepository = {
+export const specializationRepository = {
   findAll: async (params: QueryParams) => {
     const { page, limit, search, sort, order } = params;
 
     const skip = (page - 1) * limit;
 
-    const totalCount = await db.major.count({
+    const totalCount = await db.specialization.count({
       ...(search && {
         where: {
           OR: [{ name: { contains: search, mode: "insensitive" } }],
@@ -16,7 +19,7 @@ export const majorRepository = {
       }),
     });
 
-    const majors = await db.major.findMany({
+    const specializations = await db.specialization.findMany({
       take: limit,
       skip,
       ...(search && {
@@ -30,13 +33,18 @@ export const majorRepository = {
       select: {
         id: true,
         name: true,
+        major: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
     const lastPage = Math.ceil(totalCount / limit);
 
     return {
-      data: majors,
+      data: specializations,
       meta: {
         total: totalCount,
         limit,
@@ -47,43 +55,59 @@ export const majorRepository = {
   },
 
   findUniqueId: async (id: string) => {
-    const major = await db.major.findUnique({
+    const specialization = await db.specialization.findUnique({
       where: { id },
       select: {
         id: true,
         name: true,
+        major: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
 
-    return major;
+    return specialization;
   },
 
   findUniqueName: async (name: string) => {
-    const major = await db.major.findUnique({
+    const specialization = await db.specialization.findUnique({
       where: { name },
       select: {
         id: true,
         name: true,
+        major: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
 
-    return major;
+    return specialization;
   },
 
   countUniqueId: async (id: string) => {
-    const majorsLength = await db.major.count({ where: { id } });
+    const specializationsLength = await db.specialization.count({
+      where: { id },
+    });
 
-    return majorsLength;
+    return specializationsLength;
   },
 
   countUniqueName: async (name: string) => {
-    const majorsLength = await db.major.count({ where: { name } });
+    const specializationsLength = await db.specialization.count({
+      where: { name },
+    });
 
-    return majorsLength;
+    return specializationsLength;
   },
 
-  insert: async (request: CreateMajorRequest) => {
-    const major = await db.major.create({
+  insert: async (request: CreateSpecializationRequest) => {
+    const specialization = await db.specialization.create({
       data: request,
       select: {
         id: true,
@@ -92,11 +116,11 @@ export const majorRepository = {
       },
     });
 
-    return major;
+    return specialization;
   },
 
-  update: async (id: string, request: UpdateMajorRequest) => {
-    const major = await db.major.update({
+  update: async (id: string, request: UpdateSpecializationRequest) => {
+    const specialization = await db.specialization.update({
       where: { id },
       data: request,
       select: {
@@ -106,17 +130,17 @@ export const majorRepository = {
       },
     });
 
-    return major;
+    return specialization;
   },
 
   delete: async (id: string) => {
-    const major = await db.major.delete({
+    const specialization = await db.specialization.delete({
       where: { id },
       select: {
         id: true,
       },
     });
 
-    return major;
+    return specialization;
   },
 };
