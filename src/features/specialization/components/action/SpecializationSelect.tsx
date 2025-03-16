@@ -18,29 +18,29 @@ import { renderElements } from "@/utils/render-elements";
 import { useEffect, useState } from "react";
 import { useFormContext, type FieldValues, type Path } from "react-hook-form";
 
-type MajorSelectProps<T extends FieldValues> = {
+type SpecializationSelectProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   required?: boolean;
 };
 
-export const MajorSelect = <T extends FieldValues>({
+export const SpecializationSelect = <T extends FieldValues>({
   name,
   label,
   required = false,
-}: MajorSelectProps<T>) => {
+}: SpecializationSelectProps<T>) => {
   const [isReady, setIsReady] = useState<boolean>(false);
 
   const form = useFormContext<T>();
 
-  const { data: majors, isLoading: isMajorsLoading } =
-    api.major.getAll.useQuery({ params: {} });
+  const { data: specializations, isLoading: isSpecializationsLoading } =
+    api.specialization.getAll.useQuery({ params: {} });
 
   useEffect(() => {
-    if (form.control && majors && !isMajorsLoading) {
+    if (form.control && specializations && !isSpecializationsLoading) {
       setIsReady(true);
     }
-  }, [form.control, majors, isMajorsLoading]);
+  }, [form.control, specializations, isSpecializationsLoading]);
 
   if (!isReady) {
     return (
@@ -72,19 +72,21 @@ export const MajorSelect = <T extends FieldValues>({
             </FormControl>
             <SelectContent>
               {renderElements({
-                of: majors?.data,
-                keyExtractor: (major) => major.id,
-                render: (major) => (
+                of: specializations?.data,
+                keyExtractor: (specialization) => specialization.id,
+                render: (specialization) => (
                   <SelectItem
-                    key={major.id}
-                    value={major.id}
+                    key={specialization.id}
+                    value={specialization.id}
                     className="capitalize"
                   >
-                    {major.name}
+                    {specialization.name}
                   </SelectItem>
                 ),
                 fallback: (
-                  <SelectItem value={"none"}>There is no major data</SelectItem>
+                  <SelectItem value={"none"}>
+                    There is no specialization data
+                  </SelectItem>
                 ),
               })}
             </SelectContent>

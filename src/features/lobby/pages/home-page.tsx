@@ -39,7 +39,7 @@ export const HomePage = () => {
               variant={"default"}
               className="w-[200px] text-lg font-semibold shadow-md hover:shadow-lg"
             >
-              📅 Lihat Jadwal
+              📅 Schedule
             </Button>
           </Link>
           <Link href="/home-work">
@@ -47,7 +47,7 @@ export const HomePage = () => {
               variant={"secondary"}
               className="w-[200px] text-lg font-semibold shadow-md hover:shadow-lg"
             >
-              📝 Lihat Tugas
+              📝 Notes
             </Button>
           </Link>
         </motion.main>

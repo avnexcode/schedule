@@ -18,29 +18,29 @@ import { renderElements } from "@/utils/render-elements";
 import { useEffect, useState } from "react";
 import { useFormContext, type FieldValues, type Path } from "react-hook-form";
 
-type MajorSelectProps<T extends FieldValues> = {
+type LectureSelectProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   required?: boolean;
 };
 
-export const MajorSelect = <T extends FieldValues>({
+export const LectureSelect = <T extends FieldValues>({
   name,
   label,
   required = false,
-}: MajorSelectProps<T>) => {
+}: LectureSelectProps<T>) => {
   const [isReady, setIsReady] = useState<boolean>(false);
 
   const form = useFormContext<T>();
 
-  const { data: majors, isLoading: isMajorsLoading } =
-    api.major.getAll.useQuery({ params: {} });
+  const { data: lectures, isLoading: isLecturesLoading } =
+    api.lecture.getAll.useQuery({ params: {} });
 
   useEffect(() => {
-    if (form.control && majors && !isMajorsLoading) {
+    if (form.control && lectures && !isLecturesLoading) {
       setIsReady(true);
     }
-  }, [form.control, majors, isMajorsLoading]);
+  }, [form.control, lectures, isLecturesLoading]);
 
   if (!isReady) {
     return (
@@ -72,19 +72,21 @@ export const MajorSelect = <T extends FieldValues>({
             </FormControl>
             <SelectContent>
               {renderElements({
-                of: majors?.data,
-                keyExtractor: (major) => major.id,
-                render: (major) => (
+                of: lectures?.data,
+                keyExtractor: (lecture) => lecture.id,
+                render: (lecture) => (
                   <SelectItem
-                    key={major.id}
-                    value={major.id}
+                    key={lecture.id}
+                    value={lecture.id}
                     className="capitalize"
                   >
-                    {major.name}
+                    {lecture.name}
                   </SelectItem>
                 ),
                 fallback: (
-                  <SelectItem value={"none"}>There is no major data</SelectItem>
+                  <SelectItem value={"none"}>
+                    There is no lecture data
+                  </SelectItem>
                 ),
               })}
             </SelectContent>
