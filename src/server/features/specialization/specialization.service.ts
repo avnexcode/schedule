@@ -27,14 +27,29 @@ export const specializationService = {
   },
 
   create: async (request: CreateSpecializationRequest) => {
-    const specializationExists = await specializationRepository.countUniqueName(
-      request.name,
-    );
+    const specializationExistsByName =
+      await specializationRepository.countUniqueName(
+        request.name,
+        request.major_id,
+      );
 
-    if (specializationExists !== 0) {
+    if (specializationExistsByName !== 0) {
       throw new TRPCError({
         code: "CONFLICT",
         message: `Specialization already exists`,
+      });
+    }
+
+    const specializationExistsByAlias =
+      await specializationRepository.countUniqueAlias(
+        request.alias,
+        request.major_id,
+      );
+
+    if (specializationExistsByAlias !== 0) {
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: `Specialization alias already used`,
       });
     }
 
@@ -54,11 +69,29 @@ export const specializationService = {
       });
     }
 
-    const currentSpecialization = await specializationRepository.findUniqueName(
-      request.name!,
-    );
+    const currentSpecializationByName =
+      await specializationRepository.findUniqueName(
+        request.name!,
+        request.major_id!,
+      );
 
-    if (currentSpecialization && currentSpecialization.id !== id) {
+    if (currentSpecializationByName && currentSpecializationByName.id !== id) {
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: "Specialization already exists",
+      });
+    }
+
+    const currentSpecializationByAlias =
+      await specializationRepository.findUniqueAlias(
+        request.alias!,
+        request.major_id!,
+      );
+
+    if (
+      currentSpecializationByAlias &&
+      currentSpecializationByAlias.id !== id
+    ) {
       throw new TRPCError({
         code: "CONFLICT",
         message: "Specialization already exists",

@@ -24,7 +24,10 @@ export const CreateLecturePage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard - Create Lecture">
+        <DashboardSection
+          title="Dashboard - Create Lecture"
+          description="Add new lecture data"
+        >
           <CreateLectureForm />
         </DashboardSection>
       </SectionContainer>

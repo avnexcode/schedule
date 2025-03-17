@@ -1,4 +1,1 @@
-export {
-  SchedulePage as default,
-  SchedulePageSSR as getServerSideProps,
-} from "@/features/schedule/pages";
+export { SchedulePage as default } from "@/features/schedule/pages";

@@ -24,7 +24,7 @@ export const CreateMajorForm = () => {
 
   const { mutate: createMajor, isPending: isCreateMajorPending } =
     api.major.create.useMutation({
-      onSettled: () => {
+      onSuccess: () => {
         toast.success("Create major successfully");
         void router.replace("/dashboard/major");
       },

@@ -11,7 +11,10 @@ export const majorRepository = {
     const totalCount = await db.major.count({
       ...(search && {
         where: {
-          OR: [{ name: { contains: search, mode: "insensitive" } }],
+          OR: [
+            { name: { contains: search, mode: "insensitive" } },
+            { alias: { contains: search, mode: "insensitive" } },
+          ],
         },
       }),
     });
@@ -21,7 +24,10 @@ export const majorRepository = {
       skip,
       ...(search && {
         where: {
-          OR: [{ name: { contains: search, mode: "insensitive" } }],
+          OR: [
+            { name: { contains: search, mode: "insensitive" } },
+            { alias: { contains: search, mode: "insensitive" } },
+          ],
         },
       }),
       orderBy: {
@@ -73,6 +79,19 @@ export const majorRepository = {
     return major;
   },
 
+  findUniqueAlias: async (alias: string) => {
+    const major = await db.major.findUnique({
+      where: { alias },
+      select: {
+        id: true,
+        name: true,
+        alias: true,
+      },
+    });
+
+    return major;
+  },
+
   countUniqueId: async (id: string) => {
     const majorsLength = await db.major.count({ where: { id } });
 
@@ -81,6 +100,12 @@ export const majorRepository = {
 
   countUniqueName: async (name: string) => {
     const majorsLength = await db.major.count({ where: { name } });
+
+    return majorsLength;
+  },
+
+  countUniqueAlias: async (alias: string) => {
+    const majorsLength = await db.major.count({ where: { alias } });
 
     return majorsLength;
   },

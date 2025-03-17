@@ -1,15 +1,18 @@
 import { Icon } from "@/components/ui/icon";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
+import { isPathMatchingPattern } from "@/utils";
 import { type icons } from "lucide-react";
 import Link from "next/link";
 import { type SidebarSubMenuItemType } from "./sidebar-menu";
-import { isPathMatchingPattern } from "@/utils";
 
 type SidebarCollapsibleItemProps = {
   pathname: string;
+  setCollapsibleOpen: (isCollapsibleOpen: boolean) => void;
 } & SidebarSubMenuItemType;
 
-export const SidebarCollapsibleItem = (props: SidebarCollapsibleItemProps) => {
+export const SidebarCollapsibleItem = ({
+  ...props
+}: SidebarCollapsibleItemProps) => {
   const isExactMatch = props.pathname === props.url;
 
   const isActivePatternMatch =

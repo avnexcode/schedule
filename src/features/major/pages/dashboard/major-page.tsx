@@ -1,4 +1,9 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardSection,
   PageContainer,
@@ -11,9 +16,6 @@ import { CirclePlus } from "lucide-react";
 import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import {
-  MajorLimit,
-  MajorPagination,
-  MajorSearch,
   MajorSort,
   type MajorOrderParams,
   type MajorSortParams,
@@ -63,7 +65,7 @@ export const MajorPage = () => {
                 </Button>
               </Link>
 
-              <MajorSearch
+              <TableSearch
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
@@ -71,7 +73,7 @@ export const MajorPage = () => {
 
             <div>
               <div className="flex items-center gap-5">
-                <MajorLimit
+                <TableLimit
                   currentLimit={queryParams.limit}
                   onLimitChange={(limit) =>
                     handleUpdateQuery({ limit, page: 1 })
@@ -92,7 +94,7 @@ export const MajorPage = () => {
               majors={majors?.data}
               isMajorsLoading={isMajorsLoading}
             />
-            <MajorPagination
+            <TablePagination
               total={majors?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}

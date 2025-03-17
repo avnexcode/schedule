@@ -14,7 +14,10 @@ export const specializationRepository = {
     const totalCount = await db.specialization.count({
       ...(search && {
         where: {
-          OR: [{ name: { contains: search, mode: "insensitive" } }],
+          OR: [
+            { name: { contains: search, mode: "insensitive" } },
+            { alias: { contains: search, mode: "insensitive" } },
+          ],
         },
       }),
     });
@@ -24,7 +27,10 @@ export const specializationRepository = {
       skip,
       ...(search && {
         where: {
-          OR: [{ name: { contains: search, mode: "insensitive" } }],
+          OR: [
+            { name: { contains: search, mode: "insensitive" } },
+            { alias: { contains: search, mode: "insensitive" } },
+          ],
         },
       }),
       orderBy: {
@@ -76,9 +82,39 @@ export const specializationRepository = {
     return specialization;
   },
 
-  findUniqueName: async (name: string) => {
-    const specialization = await db.specialization.findUnique({
-      where: { name },
+  findUniqueName: async (name: string, major_id: string) => {
+    const specialization = await db.specialization.findFirst({
+      where: {
+        AND: {
+          name,
+          major_id,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        alias: true,
+        major: {
+          select: {
+            id: true,
+            name: true,
+            alias: true,
+          },
+        },
+      },
+    });
+
+    return specialization;
+  },
+
+  findUniqueAlias: async (alias: string, major_id: string) => {
+    const specialization = await db.specialization.findFirst({
+      where: {
+        AND: {
+          alias,
+          major_id,
+        },
+      },
       select: {
         id: true,
         name: true,
@@ -104,9 +140,27 @@ export const specializationRepository = {
     return specializationsLength;
   },
 
-  countUniqueName: async (name: string) => {
+  countUniqueName: async (name: string, major_id: string) => {
     const specializationsLength = await db.specialization.count({
-      where: { name },
+      where: {
+        AND: {
+          name,
+          major_id,
+        },
+      },
+    });
+
+    return specializationsLength;
+  },
+
+  countUniqueAlias: async (alias: string, major_id: string) => {
+    const specializationsLength = await db.specialization.count({
+      where: {
+        AND: {
+          alias,
+          major_id,
+        },
+      },
     });
 
     return specializationsLength;

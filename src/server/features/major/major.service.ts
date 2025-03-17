@@ -24,12 +24,25 @@ export const majorService = {
   },
 
   create: async (request: CreateMajorRequest) => {
-    const majorExists = await majorRepository.countUniqueName(request.name);
+    const majorExistsByName = await majorRepository.countUniqueName(
+      request.name,
+    );
 
-    if (majorExists !== 0) {
+    if (majorExistsByName !== 0) {
       throw new TRPCError({
         code: "CONFLICT",
         message: `Major already exists`,
+      });
+    }
+
+    const majorExistsByAlias = await majorRepository.countUniqueAlias(
+      request.alias,
+    );
+
+    if (majorExistsByAlias !== 0) {
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: `Major alias already used`,
       });
     }
 
@@ -48,12 +61,25 @@ export const majorService = {
       });
     }
 
-    const currentMajor = await majorRepository.findUniqueName(request.name!);
+    const currentMajorByName = await majorRepository.findUniqueName(
+      request.name!,
+    );
 
-    if (currentMajor && currentMajor.id !== id) {
+    if (currentMajorByName && currentMajorByName.id !== id) {
       throw new TRPCError({
         code: "CONFLICT",
         message: "Major already exists",
+      });
+    }
+
+    const currentMajorByAlias = await majorRepository.findUniqueAlias(
+      request.alias!,
+    );
+
+    if (currentMajorByAlias && currentMajorByAlias.id !== id) {
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: "Major alias already used",
       });
     }
 

@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
 } from "@/components/ui/sidebar";
-import { renderElements } from "@/utils";
+import { isPathMatchingPattern, renderElements } from "@/utils";
 import { ChevronDown, ChevronRight, type icons } from "lucide-react";
 import { useState } from "react";
 import { type SidebarMenuItemType } from "./sidebar-menu";
@@ -20,11 +20,22 @@ type SidebarCollapsibleProps = {
 } & Omit<SidebarMenuItemType, "type" | "active" | "url">;
 
 export const SidebarCollapsible = (props: SidebarCollapsibleProps) => {
-  const [collapsibleOpen, setCollapsibleOpen] = useState<boolean>(false);
+  const isAnySubmenuActive = props.subMenu?.some(
+    (submenu) =>
+      props.pathname === submenu.url ||
+      (Array.isArray(submenu.active) &&
+        submenu.active.some((pattern) =>
+          isPathMatchingPattern(props.pathname, pattern),
+        )),
+  );
+
+  const [isCollapsibleOpen, setCollapsibleOpen] = useState<boolean>(
+    isAnySubmenuActive ?? false,
+  );
 
   return (
     <Collapsible
-      defaultOpen={collapsibleOpen}
+      defaultOpen={isCollapsibleOpen}
       onOpenChange={setCollapsibleOpen}
       className="group/collapsible"
     >
@@ -38,7 +49,7 @@ export const SidebarCollapsible = (props: SidebarCollapsibleProps) => {
             />
             <span className="flex w-full items-center justify-between">
               {props.title}{" "}
-              {collapsibleOpen ? (
+              {isCollapsibleOpen ? (
                 <ChevronDown size={20} />
               ) : (
                 <ChevronRight size={20} />
@@ -53,6 +64,7 @@ export const SidebarCollapsible = (props: SidebarCollapsibleProps) => {
               keyExtractor: (menu) => menu.title,
               render: (menu) => (
                 <SidebarCollapsibleItem
+                  setCollapsibleOpen={setCollapsibleOpen}
                   pathname={props.pathname}
                   title={menu.title}
                   url={menu.url}

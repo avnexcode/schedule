@@ -1,4 +1,9 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardSection,
   PageContainer,
@@ -11,9 +16,6 @@ import { CirclePlus } from "lucide-react";
 import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import {
-  SpecializationLimit,
-  SpecializationPagination,
-  SpecializationSearch,
   SpecializationSort,
   type SpecializationOrderParams,
   type SpecializationSortParams,
@@ -60,7 +62,7 @@ export const SpecializationPage = () => {
                 </Button>
               </Link>
 
-              <SpecializationSearch
+              <TableSearch
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
@@ -68,7 +70,7 @@ export const SpecializationPage = () => {
 
             <div>
               <div className="flex items-center gap-5">
-                <SpecializationLimit
+                <TableLimit
                   currentLimit={queryParams.limit}
                   onLimitChange={(limit) =>
                     handleUpdateQuery({ limit, page: 1 })
@@ -89,7 +91,7 @@ export const SpecializationPage = () => {
               specializations={specializations?.data}
               isSpecializationsLoading={isSpecializationsLoading}
             />
-            <SpecializationPagination
+            <TablePagination
               total={specializations?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}

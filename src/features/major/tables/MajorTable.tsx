@@ -55,7 +55,7 @@ export const MajorTable = ({ majors, isMajorsLoading }: MajorTableProps) => {
           fallback: (
             <TableRow>
               <TableCell colSpan={3} className="text-center">
-                There is no major data
+                There is no majors data
               </TableCell>
             </TableRow>
           ),

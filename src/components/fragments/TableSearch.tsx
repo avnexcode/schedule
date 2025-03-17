@@ -3,15 +3,15 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-type LectureSearchProps = {
+type TableSearchProps = {
   initialSearch?: string;
   onSearch: (search: string) => void;
 };
 
-export const LectureSearch = ({
+export const TableSearch = ({
   initialSearch = "",
   onSearch,
-}: LectureSearchProps) => {
+}: TableSearchProps) => {
   const router = useRouter();
   const [search, setSearch] = useState(initialSearch);
   const debouncedSearch = useDebounce(search, 1000);

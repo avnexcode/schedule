@@ -1,10 +1,10 @@
 import { Icon } from "@/components/ui/icon";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { isPathMatchingPattern } from "@/utils";
 import { type icons } from "lucide-react";
 import Link from "next/link";
 import { type SidebarMenuItemType } from "./sidebar-menu";
 import { SidebarCollapsible } from "./SidebarCollapsible";
-import { isPathMatchingPattern } from "@/utils";
 
 type SidebarItemProps = {
   pathname: string;

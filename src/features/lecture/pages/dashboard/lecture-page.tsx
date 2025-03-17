@@ -1,4 +1,9 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardSection,
   PageContainer,
@@ -9,16 +14,13 @@ import { useUpdateQuery } from "@/hooks";
 import { api } from "@/utils";
 import { CirclePlus } from "lucide-react";
 import { type GetServerSideProps } from "next";
+import Link from "next/link";
 import {
-  LectureLimit,
-  LecturePagination,
-  LectureSearch,
   LectureSort,
   type LectureOrderParams,
   type LectureSortParams,
 } from "../../components/action";
 import { LectureTable } from "../../tables";
-import Link from "next/link";
 
 export const LecturePageSSR: GetServerSideProps = async ({ req }) => {
   const cookies = req.headers.cookie ?? "";
@@ -66,7 +68,7 @@ export const LecturePage = () => {
                 </Button>
               </Link>
 
-              <LectureSearch
+              <TableSearch
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
@@ -74,7 +76,7 @@ export const LecturePage = () => {
 
             <div>
               <div className="flex items-center gap-5">
-                <LectureLimit
+                <TableLimit
                   currentLimit={queryParams.limit}
                   onLimitChange={(limit) =>
                     handleUpdateQuery({ limit, page: 1 })
@@ -95,7 +97,7 @@ export const LecturePage = () => {
               lectures={lectures?.data}
               isLecturesLoading={isLecturesLoading}
             />
-            <LecturePagination
+            <TablePagination
               total={lectures?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}

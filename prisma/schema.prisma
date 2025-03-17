@@ -30,6 +30,8 @@ model Major {
     lectures        Lecture[]
     rooms           Room[]
     courses         Course[]
+    batchs          Batch[]
+    times           Time[]
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
@@ -39,8 +41,8 @@ model Major {
 
 model Specialization {
     id    String @id @default(cuid())
-    name  String @unique @db.VarChar(50)
-    alias String @unique @db.VarChar(10)
+    name  String @db.VarChar(50)
+    alias String @db.VarChar(10)
 
     schedules Schedule[]
 
@@ -100,10 +102,13 @@ model Course {
 
 model Batch {
     id    String @id @default(cuid())
-    label String @unique
+    label String
     year  Int
 
     schedules Schedule[]
+
+    major_id String
+    major    Major  @relation(fields: [major_id], references: [id])
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
@@ -113,10 +118,15 @@ model Batch {
 
 model Time {
     id         String @id @default(cuid())
+    label      String
     start_time String
     end_time   String
 
-    scheduls Schedule[]
+    major_id    String
+    schedule_id String?
+
+    major    Major     @relation(fields: [major_id], references: [id])
+    schedule Schedule?
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
@@ -138,15 +148,15 @@ model Schedule {
 
     home_works HomeWork[]
 
-    time_id           String
     major_id          String
     batch_id          String
     specialization_id String
+    time_id           String @unique
 
-    time           Time           @relation(fields: [time_id], references: [id])
     major          Major          @relation(fields: [major_id], references: [id])
     batch          Batch          @relation(fields: [batch_id], references: [id])
     specialization Specialization @relation(fields: [specialization_id], references: [id])
+    time           Time           @relation(fields: [time_id], references: [id])
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt

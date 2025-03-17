@@ -55,7 +55,7 @@ export const LectureTable = ({
           fallback: (
             <TableRow>
               <TableCell colSpan={3} className="text-center">
-                There is no lecture data
+                There is no lectures data
               </TableCell>
             </TableRow>
           ),

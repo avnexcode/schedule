@@ -48,7 +48,7 @@ export const EditSpecializationForm = ({
     mutate: updateSpecialization,
     isPending: isUpdateSpecializationPending,
   } = api.specialization.update.useMutation({
-    onSettled: () => {
+    onSuccess: () => {
       toast.success("Update specialization successfully");
       void router.replace("/dashboard/specialization");
     },

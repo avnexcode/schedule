@@ -27,7 +27,7 @@ export const CreateSpecializationForm = () => {
     mutate: createSpecialization,
     isPending: isCreateSpecializationPending,
   } = api.specialization.create.useMutation({
-    onSettled: () => {
+    onSuccess: () => {
       toast.success("Create specialization successfully");
       void router.replace("/dashboard/specialization");
     },

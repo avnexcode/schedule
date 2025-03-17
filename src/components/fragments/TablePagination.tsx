@@ -8,19 +8,19 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-type SpecializationPaginationProps = {
+type TablePaginationProps = {
   total: number;
   currentPage: number;
   limit: number;
   onPageChange: (page: number) => void;
 };
 
-export const SpecializationPagination = ({
+export const TablePagination = ({
   total,
   currentPage,
   limit,
   onPageChange,
-}: SpecializationPaginationProps) => {
+}: TablePaginationProps) => {
   const totalPages = Math.ceil(total / limit);
 
   if (totalPages <= 1) return null;

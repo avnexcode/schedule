@@ -1,3 +1,5 @@
+import { SelectPagination } from "@/components/elements/SelectPagination";
+import { SelectSearch } from "@/components/elements/SelectSearch";
 import {
   FormControl,
   FormField,
@@ -13,8 +15,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSelectQuery } from "@/hooks";
 import { api } from "@/utils/api";
 import { renderElements } from "@/utils/render-elements";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext, type FieldValues, type Path } from "react-hook-form";
 
@@ -30,15 +34,41 @@ export const LectureSelect = <T extends FieldValues>({
   required = false,
 }: LectureSelectProps<T>) => {
   const [isReady, setIsReady] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [totalData, setTotalData] = useState<number>(0);
+
+  const ITEMS_PER_PAGE = 10;
 
   const form = useFormContext<T>();
 
+  const {
+    page,
+    totalPages,
+    searchTerm,
+    debouncedSearchTerm,
+    handlePageChange,
+    handleSearchChange,
+    handleSearchInputClick,
+  } = useSelectQuery({
+    totalData: totalData,
+    itemsPerPage: ITEMS_PER_PAGE,
+  });
+
   const { data: lectures, isLoading: isLecturesLoading } =
-    api.lecture.getAll.useQuery({ params: {} });
+    api.lecture.getAll.useQuery({
+      params: {
+        limit: ITEMS_PER_PAGE,
+        sort: "name",
+        order: "asc",
+        page,
+        search: debouncedSearchTerm || undefined,
+      },
+    });
 
   useEffect(() => {
     if (form.control && lectures && !isLecturesLoading) {
       setIsReady(true);
+      setTotalData(lectures.meta.total);
     }
   }, [form.control, lectures, isLecturesLoading]);
 
@@ -64,6 +94,8 @@ export const LectureSelect = <T extends FieldValues>({
             onValueChange={onChange}
             value={value ?? ""}
             defaultValue={value}
+            onOpenChange={setIsOpen}
+            open={isOpen}
           >
             <FormControl>
               <SelectTrigger>
@@ -71,24 +103,45 @@ export const LectureSelect = <T extends FieldValues>({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {renderElements({
-                of: lectures?.data,
-                keyExtractor: (lecture) => lecture.id,
-                render: (lecture) => (
-                  <SelectItem
-                    key={lecture.id}
-                    value={lecture.id}
-                    className="capitalize"
-                  >
-                    {lecture.name}
-                  </SelectItem>
-                ),
-                fallback: (
-                  <SelectItem value={"none"}>
-                    There is no lecture data
-                  </SelectItem>
-                ),
-              })}
+              <SelectSearch
+                searchTerm={searchTerm}
+                onSearchChange={handleSearchChange}
+                onClick={handleSearchInputClick}
+              />
+
+              {isLecturesLoading ? (
+                <div className="flex justify-center py-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                </div>
+              ) : (
+                <>
+                  {renderElements({
+                    of: lectures?.data,
+                    keyExtractor: (lecture) => lecture.id,
+                    render: (lecture) => (
+                      <SelectItem
+                        key={lecture.id}
+                        value={lecture.id}
+                        className="capitalize"
+                      >
+                        {lecture.name}
+                      </SelectItem>
+                    ),
+                    fallback: (
+                      <SelectItem value="none" disabled>
+                        There is no lectures data
+                      </SelectItem>
+                    ),
+                  })}
+
+                  <SelectPagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    isLoading={isLecturesLoading}
+                    onPageChange={handlePageChange}
+                  />
+                </>
+              )}
             </SelectContent>
           </Select>
           <FormMessage />

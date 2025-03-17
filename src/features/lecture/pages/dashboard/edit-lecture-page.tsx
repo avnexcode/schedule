@@ -30,7 +30,10 @@ export const EditLecturePage = ({ id }: EditLecturePageProps) => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard - Edit Lecture">
+        <DashboardSection
+          title="Dashboard - Edit Lecture"
+          description="Update lecture data"
+        >
           <EditLectureForm lectureId={id} />
         </DashboardSection>
       </SectionContainer>

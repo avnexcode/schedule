@@ -67,8 +67,8 @@ export const SpecializationTable = ({
           isLoading: isSpecializationsLoading,
           fallback: (
             <TableRow>
-              <TableCell colSpan={3} className="text-center">
-                There is no Specialization data
+              <TableCell colSpan={4} className="text-center">
+                There is no specializations data
               </TableCell>
             </TableRow>
           ),
