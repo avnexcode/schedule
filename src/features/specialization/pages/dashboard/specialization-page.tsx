@@ -63,27 +63,24 @@ export const SpecializationPage = () => {
               </Link>
 
               <TableSearch
+                placeholder="specialization"
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
             </div>
 
-            <div>
-              <div className="flex items-center gap-5">
-                <TableLimit
-                  currentLimit={queryParams.limit}
-                  onLimitChange={(limit) =>
-                    handleUpdateQuery({ limit, page: 1 })
-                  }
-                />
+            <div className="flex items-center gap-5">
+              <TableLimit
+                currentLimit={queryParams.limit}
+                onLimitChange={(limit) => handleUpdateQuery({ limit, page: 1 })}
+              />
 
-                <SpecializationSort
-                  currentSort={queryParams.sort}
-                  currentOrder={queryParams.order}
-                  onSortChange={(sort) => handleUpdateQuery({ sort })}
-                  onOrderChange={(order) => handleUpdateQuery({ order })}
-                />
-              </div>
+              <SpecializationSort
+                currentSort={queryParams.sort}
+                currentOrder={queryParams.order}
+                onSortChange={(sort) => handleUpdateQuery({ sort })}
+                onOrderChange={(order) => handleUpdateQuery({ order })}
+              />
             </div>
           </header>
           <main>
@@ -91,13 +88,16 @@ export const SpecializationPage = () => {
               specializations={specializations?.data}
               isSpecializationsLoading={isSpecializationsLoading}
             />
+          </main>
+
+          <footer className="py-5">
             <TablePagination
               total={specializations?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}
               onPageChange={(page) => handleUpdateQuery({ page })}
             />
-          </main>
+          </footer>
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

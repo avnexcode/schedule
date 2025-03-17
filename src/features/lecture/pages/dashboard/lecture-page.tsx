@@ -69,27 +69,24 @@ export const LecturePage = () => {
               </Link>
 
               <TableSearch
+                placeholder="lecture"
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
             </div>
 
-            <div>
-              <div className="flex items-center gap-5">
-                <TableLimit
-                  currentLimit={queryParams.limit}
-                  onLimitChange={(limit) =>
-                    handleUpdateQuery({ limit, page: 1 })
-                  }
-                />
+            <div className="flex items-center gap-5">
+              <TableLimit
+                currentLimit={queryParams.limit}
+                onLimitChange={(limit) => handleUpdateQuery({ limit, page: 1 })}
+              />
 
-                <LectureSort
-                  currentSort={queryParams.sort}
-                  currentOrder={queryParams.order}
-                  onSortChange={(sort) => handleUpdateQuery({ sort })}
-                  onOrderChange={(order) => handleUpdateQuery({ order })}
-                />
-              </div>
+              <LectureSort
+                currentSort={queryParams.sort}
+                currentOrder={queryParams.order}
+                onSortChange={(sort) => handleUpdateQuery({ sort })}
+                onOrderChange={(order) => handleUpdateQuery({ order })}
+              />
             </div>
           </header>
           <main>
@@ -97,13 +94,16 @@ export const LecturePage = () => {
               lectures={lectures?.data}
               isLecturesLoading={isLecturesLoading}
             />
+          </main>
+
+          <footer className="py-5">
             <TablePagination
               total={lectures?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}
               onPageChange={(page) => handleUpdateQuery({ page })}
             />
-          </main>
+          </footer>
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

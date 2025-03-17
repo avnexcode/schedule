@@ -66,27 +66,24 @@ export const MajorPage = () => {
               </Link>
 
               <TableSearch
+                placeholder="major"
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
             </div>
 
-            <div>
-              <div className="flex items-center gap-5">
-                <TableLimit
-                  currentLimit={queryParams.limit}
-                  onLimitChange={(limit) =>
-                    handleUpdateQuery({ limit, page: 1 })
-                  }
-                />
+            <div className="flex items-center gap-5">
+              <TableLimit
+                currentLimit={queryParams.limit}
+                onLimitChange={(limit) => handleUpdateQuery({ limit, page: 1 })}
+              />
 
-                <MajorSort
-                  currentSort={queryParams.sort}
-                  currentOrder={queryParams.order}
-                  onSortChange={(sort) => handleUpdateQuery({ sort })}
-                  onOrderChange={(order) => handleUpdateQuery({ order })}
-                />
-              </div>
+              <MajorSort
+                currentSort={queryParams.sort}
+                currentOrder={queryParams.order}
+                onSortChange={(sort) => handleUpdateQuery({ sort })}
+                onOrderChange={(order) => handleUpdateQuery({ order })}
+              />
             </div>
           </header>
           <main>
@@ -94,13 +91,15 @@ export const MajorPage = () => {
               majors={majors?.data}
               isMajorsLoading={isMajorsLoading}
             />
+          </main>
+          <footer className="py-5">
             <TablePagination
               total={majors?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}
               onPageChange={(page) => handleUpdateQuery({ page })}
             />
-          </main>
+          </footer>
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

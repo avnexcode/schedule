@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 type TableSearchProps = {
   initialSearch?: string;
   onSearch: (search: string) => void;
+  placeholder: string;
 };
 
 export const TableSearch = ({
   initialSearch = "",
   onSearch,
+  placeholder = "",
 }: TableSearchProps) => {
   const router = useRouter();
   const [search, setSearch] = useState(initialSearch);
@@ -50,7 +52,7 @@ export const TableSearch = ({
 
   return (
     <Input
-      placeholder="Cari pelanggan . . ."
+      placeholder={`Search ${placeholder} . . .`}
       className="min-w-[300px]"
       value={search}
       onChange={(e) => setSearch(e.target.value)}
