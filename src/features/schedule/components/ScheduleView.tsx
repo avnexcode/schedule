@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 const BATCHS: { id: number; year: number }[] = [
   { id: 1, year: 2022 },
@@ -268,9 +268,6 @@ export const ScheduleView = () => {
 
   return (
     <Card className="w-full border-none shadow-none">
-      <CardHeader className="text-center">
-        <CardTitle className="text-5xl font-bold">Jadwal Mata Kuliah</CardTitle>
-      </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>

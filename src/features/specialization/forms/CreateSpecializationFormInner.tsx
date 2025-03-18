@@ -58,7 +58,7 @@ export const CreateSpecializationFormInner = ({
         )}
       />
       <MajorSelect<CreateSpecializationFormSchema>
-        name="major_id"
+        name="majorId"
         label="Major"
         required
       />

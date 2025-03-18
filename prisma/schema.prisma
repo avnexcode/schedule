@@ -14,8 +14,8 @@ model User {
     name     String @db.VarChar(150)
     email    String @unique @db.VarChar(150)
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
     @@map("users")
 }
@@ -33,9 +33,11 @@ model Major {
     batchs          Batch[]
     times           Time[]
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
+    @@index([alias])
     @@map("majors")
 }
 
@@ -46,12 +48,15 @@ model Specialization {
 
     schedules Schedule[]
 
-    major_id String
-    major    Major  @relation(fields: [major_id], references: [id])
+    majorId String @map("major_id")
+    major   Major  @relation(fields: [majorId], references: [id])
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
+    @@index([alias])
+    @@index([majorId])
     @@map("specializations")
 }
 
@@ -65,12 +70,14 @@ model Lecture {
     name   String @db.VarChar(150)
     gender Gender
 
-    major_id String
-    major    Major  @relation(fields: [major_id], references: [id])
+    majorId String @map("major_id")
+    major   Major  @relation(fields: [majorId], references: [id])
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
+    @@index([majorId])
     @@map("lectures")
 }
 
@@ -78,12 +85,14 @@ model Room {
     id   String @id @default(cuid())
     name String @unique @db.VarChar(50)
 
-    major_id String
-    major    Major  @relation(fields: [major_id], references: [id])
+    majorId String @map("major_id")
+    major   Major  @relation(fields: [majorId], references: [id])
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
+    @@index([majorId])
     @@map("rooms")
 }
 
@@ -91,12 +100,14 @@ model Course {
     id   String @id @default(cuid())
     name String @unique @db.VarChar(50)
 
-    major_id String
-    major    Major  @relation(fields: [major_id], references: [id])
+    majorId String @map("major_id")
+    major   Major  @relation(fields: [majorId], references: [id])
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
+    @@index([majorId])
     @@map("courses")
 }
 
@@ -107,30 +118,35 @@ model Batch {
 
     schedules Schedule[]
 
-    major_id String
-    major    Major  @relation(fields: [major_id], references: [id])
+    majorId String @map("major_id")
+    major   Major  @relation(fields: [majorId], references: [id])
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([label])
+    @@index([year])
+    @@index([majorId])
     @@map("batchs")
 }
 
 model Time {
-    id         String @id @default(cuid())
-    label      String
-    start_time String
-    end_time   String
+    id        String @id @default(cuid())
+    label     String
+    startTime String @map("start_time")
+    endTime   String @map("end_time")
 
-    major_id    String
-    schedule_id String?
+    majorId    String  @map("major_id")
+    scheduleId String? @map("schedule_id")
 
-    major    Major     @relation(fields: [major_id], references: [id])
+    major    Major     @relation(fields: [majorId], references: [id])
     schedule Schedule?
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([label])
+    @@index([majorId])
     @@map("times")
 }
 
@@ -146,34 +162,41 @@ model Schedule {
     id  String @id @default(cuid())
     day Day
 
-    home_works HomeWork[]
+    homeWorks HomeWork[]
 
-    major_id          String
-    batch_id          String
-    specialization_id String
-    time_id           String @unique
+    majorId          String @map("major_id")
+    batchId          String @map("batch_id")
+    specializationId String @map("specialization_id")
+    timeId           String @unique @map("time_id")
 
-    major          Major          @relation(fields: [major_id], references: [id])
-    batch          Batch          @relation(fields: [batch_id], references: [id])
-    specialization Specialization @relation(fields: [specialization_id], references: [id])
-    time           Time           @relation(fields: [time_id], references: [id])
+    major          Major          @relation(fields: [majorId], references: [id])
+    batch          Batch          @relation(fields: [batchId], references: [id])
+    specialization Specialization @relation(fields: [specializationId], references: [id])
+    time           Time           @relation(fields: [timeId], references: [id])
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([majorId])
+    @@index([batchId])
+    @@index([specializationId])
+    @@index([timeId])
     @@map("schedules")
 }
 
 model HomeWork {
     id          String @id @default(cuid())
-    dead_line   String
+    label       String
+    deadLine    String @map("dead_line")
     description String @db.Text
 
-    schedule_id String
-    schedule    Schedule @relation(fields: [schedule_id], references: [id])
+    scheduleId String   @map("schedule_id")
+    schedule   Schedule @relation(fields: [scheduleId], references: [id])
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([label])
+    @@index([scheduleId])
     @@map("home_works")
 }

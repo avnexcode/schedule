@@ -76,7 +76,7 @@ export const EditLectureFormInner = ({
         )}
       />
       <MajorSelect<UpdateLectureFormSchema>
-        name="major_id"
+        name="majorId"
         label="Major"
         required
       />

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-export const useUpdateQuery = <
+export const useQueryParams = <
   SortParams extends string = string,
   OrderParams extends string = string,
 >() => {

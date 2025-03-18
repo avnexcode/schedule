@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type MajorSortParams = "name" | "created_at";
+export type MajorSortParams = "name" | "createdAt";
 export type MajorOrderParams = "asc" | "desc";
 
 type MajorSortProps = {
@@ -17,7 +17,7 @@ type MajorSortProps = {
 };
 
 export const MajorSort = ({
-  currentSort = "created_at",
+  currentSort = "createdAt",
   currentOrder = "desc",
   onSortChange,
   onOrderChange,
@@ -30,7 +30,7 @@ export const MajorSort = ({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="name">Name</SelectItem>
-          <SelectItem value="created_at">Created At</SelectItem>
+          <SelectItem value="createdAt">Created At</SelectItem>
         </SelectContent>
       </Select>
 
@@ -39,7 +39,7 @@ export const MajorSort = ({
           <SelectValue placeholder="Sort Order" />
         </SelectTrigger>
         {currentSort === "name" && <SelectSortText />}
-        {currentSort === "created_at" && <SelectSortDate />}
+        {currentSort === "createdAt" && <SelectSortDate />}
       </Select>
     </div>
   );

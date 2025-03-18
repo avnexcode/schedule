@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type LectureSortParams = "name" | "created_at";
+export type LectureSortParams = "name" | "createdAt";
 export type LectureOrderParams = "asc" | "desc";
 
 type LectureSortProps = {
@@ -17,7 +17,7 @@ type LectureSortProps = {
 };
 
 export const LectureSort = ({
-  currentSort = "created_at",
+  currentSort = "createdAt",
   currentOrder = "desc",
   onSortChange,
   onOrderChange,
@@ -30,7 +30,7 @@ export const LectureSort = ({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="name">Name</SelectItem>
-          <SelectItem value="created_at">Created At</SelectItem>
+          <SelectItem value="createdAt">Created At</SelectItem>
         </SelectContent>
       </Select>
 
@@ -39,7 +39,7 @@ export const LectureSort = ({
           <SelectValue placeholder="Sort Order" />
         </SelectTrigger>
         {currentSort === "name" && <SelectSortText />}
-        {currentSort === "created_at" && <SelectSortDate />}
+        {currentSort === "createdAt" && <SelectSortDate />}
       </Select>
     </div>
   );

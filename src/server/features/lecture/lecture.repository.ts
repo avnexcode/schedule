@@ -90,7 +90,7 @@ export const lectureRepository = {
         id: true,
         name: true,
         gender: true,
-        created_at: true,
+        createdAt: true,
       },
     });
 
@@ -105,7 +105,7 @@ export const lectureRepository = {
         id: true,
         name: true,
         gender: true,
-        updated_at: true,
+        updatedAt: true,
       },
     });
 

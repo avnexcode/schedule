@@ -76,7 +76,7 @@ export const CreateLectureFormInner = ({
         )}
       />
       <MajorSelect<CreateLectureFormSchema>
-        name="major_id"
+        name="majorId"
         label="Major"
         required
       />

@@ -82,12 +82,12 @@ export const specializationRepository = {
     return specialization;
   },
 
-  findUniqueName: async (name: string, major_id: string) => {
+  findUniqueName: async (name: string, majorId: string) => {
     const specialization = await db.specialization.findFirst({
       where: {
         AND: {
           name,
-          major_id,
+          majorId,
         },
       },
       select: {
@@ -107,12 +107,12 @@ export const specializationRepository = {
     return specialization;
   },
 
-  findUniqueAlias: async (alias: string, major_id: string) => {
+  findUniqueAlias: async (alias: string, majorId: string) => {
     const specialization = await db.specialization.findFirst({
       where: {
         AND: {
           alias,
-          major_id,
+          majorId,
         },
       },
       select: {
@@ -140,12 +140,12 @@ export const specializationRepository = {
     return specializationsLength;
   },
 
-  countUniqueName: async (name: string, major_id: string) => {
+  countUniqueName: async (name: string, majorId: string) => {
     const specializationsLength = await db.specialization.count({
       where: {
         AND: {
           name,
-          major_id,
+          majorId,
         },
       },
     });
@@ -153,12 +153,12 @@ export const specializationRepository = {
     return specializationsLength;
   },
 
-  countUniqueAlias: async (alias: string, major_id: string) => {
+  countUniqueAlias: async (alias: string, majorId: string) => {
     const specializationsLength = await db.specialization.count({
       where: {
         AND: {
           alias,
-          major_id,
+          majorId,
         },
       },
     });
@@ -173,7 +173,7 @@ export const specializationRepository = {
         id: true,
         name: true,
         alias: true,
-        created_at: true,
+        createdAt: true,
       },
     });
 
@@ -188,7 +188,7 @@ export const specializationRepository = {
         id: true,
         name: true,
         alias: true,
-        updated_at: true,
+        updatedAt: true,
       },
     });
 

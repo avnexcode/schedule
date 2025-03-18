@@ -11,7 +11,6 @@ type SelectSearchProps = {
 
 export const SelectSearch = ({
   searchTerm,
-
   onSearchChange,
   onClick,
   onFocus,

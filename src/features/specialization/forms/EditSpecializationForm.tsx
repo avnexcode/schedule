@@ -26,7 +26,7 @@ export const EditSpecializationForm = ({
     defaultValues: {
       name: "",
       alias: "",
-      major_id: "",
+      majorId: "",
     },
     resolver: zodResolver(updateSpecializationFormSchema),
   });
@@ -39,7 +39,7 @@ export const EditSpecializationForm = ({
       form.reset({
         name: specialization.name,
         alias: specialization.alias,
-        major_id: specialization.major.id,
+        majorId: specialization.major.id,
       });
     }
   }, [form, specialization]);

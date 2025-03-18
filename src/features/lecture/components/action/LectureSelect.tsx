@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useSelectQuery } from "@/hooks";
+import { useSelectParams } from "@/hooks";
 import { api } from "@/utils/api";
 import { renderElements } from "@/utils/render-elements";
 import { Loader2 } from "lucide-react";
@@ -49,7 +49,7 @@ export const LectureSelect = <T extends FieldValues>({
     handlePageChange,
     handleSearchChange,
     handleSearchInputClick,
-  } = useSelectQuery({
+  } = useSelectParams({
     totalData: totalData,
     itemsPerPage: ITEMS_PER_PAGE,
   });

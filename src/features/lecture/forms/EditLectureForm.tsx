@@ -24,7 +24,7 @@ export const EditLectureForm = ({ lectureId }: EditLectureFormProps) => {
     defaultValues: {
       name: "",
       gender: "" as Gender,
-      major_id: "",
+      majorId: "",
     },
     resolver: zodResolver(updateLectureFormSchema),
   });
@@ -37,7 +37,7 @@ export const EditLectureForm = ({ lectureId }: EditLectureFormProps) => {
       form.reset({
         name: lecture.name,
         gender: lecture.gender,
-        major_id: lecture.major.id,
+        majorId: lecture.major.id,
       });
     }
   }, [form, lecture]);

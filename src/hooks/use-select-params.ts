@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "./use-debounce";
 
-export const useSelectQuery = ({
+export const useSelectParams = ({
   totalData,
   itemsPerPage,
 }: {

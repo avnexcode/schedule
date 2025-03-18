@@ -10,7 +10,7 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
-import { useUpdateQuery } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils";
 import { CirclePlus } from "lucide-react";
 import { type GetServerSideProps } from "next";
@@ -36,7 +36,7 @@ type SpecializationPageProps = {
 };
 
 export const SpecializationPage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+  const { queryParams, handleUpdateQuery } = useQueryParams<
     SpecializationSortParams,
     SpecializationOrderParams
   >();

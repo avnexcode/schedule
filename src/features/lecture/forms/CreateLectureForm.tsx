@@ -18,7 +18,7 @@ export const CreateLectureForm = () => {
     defaultValues: {
       name: "",
       gender: "" as Gender,
-      major_id: "",
+      majorId: "",
     },
     resolver: zodResolver(createLectureFormSchema),
   });

@@ -117,7 +117,7 @@ export const majorRepository = {
         id: true,
         name: true,
         alias: true,
-        created_at: true,
+        createdAt: true,
       },
     });
 
@@ -132,7 +132,7 @@ export const majorRepository = {
         id: true,
         name: true,
         alias: true,
-        updated_at: true,
+        updatedAt: true,
       },
     });
 
