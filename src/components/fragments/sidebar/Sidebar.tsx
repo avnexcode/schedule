@@ -28,7 +28,7 @@ export function Sidebar() {
   };
 
   return (
-    <SidebarComponent collapsible="icon">
+    <SidebarComponent collapsible="offcanvas">
       <SidebarContent>
         <SidebarHeader className="text-nowrap py-4 text-center text-xl font-bold">
           <Link href={"/"}>{env.NEXT_PUBLIC_APP_NAME}</Link>

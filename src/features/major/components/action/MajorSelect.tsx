@@ -41,6 +41,19 @@ export const MajorSelect = <T extends FieldValues>({
 
   const ITEMS_PER_PAGE = 15;
 
+  const {
+    page,
+    totalPages,
+    searchTerm,
+    debouncedSearchTerm,
+    handlePageChange,
+    handleSearchChange,
+    handleSearchInputClick,
+  } = useSelectParams({
+    totalData: totalData,
+    itemsPerPage: ITEMS_PER_PAGE,
+  });
+
   const form = useFormContext<T>();
   const selectedMajorId = form.watch(name);
 
@@ -59,19 +72,6 @@ export const MajorSelect = <T extends FieldValues>({
     }
   }, [selectedMajor, isSelectedMajorLoading]);
 
-  const {
-    page,
-    totalPages,
-    searchTerm,
-    debouncedSearchTerm,
-    handlePageChange,
-    handleSearchChange,
-    handleSearchInputClick,
-  } = useSelectParams({
-    totalData: totalData,
-    itemsPerPage: ITEMS_PER_PAGE,
-  });
-
   const { data: majors, isLoading: isMajorsLoading } =
     api.major.getAll.useQuery({
       params: {
@@ -84,9 +84,7 @@ export const MajorSelect = <T extends FieldValues>({
     });
 
   useEffect(() => {
-    const isSelectedIdReady = selectedMajorId ? selectedMajorLoaded : true;
-
-    if (form.control && majors && !isMajorsLoading && isSelectedIdReady) {
+    if (form.control && majors && !isMajorsLoading) {
       setIsReady(true);
       setTotalData(majors.meta.total);
     }
@@ -108,7 +106,7 @@ export const MajorSelect = <T extends FieldValues>({
     combinedMajors.unshift(selectedMajor);
   }
 
-  if (!isReady) {
+  if (!isReady || !selectedMajorLoaded) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-5 w-44" />

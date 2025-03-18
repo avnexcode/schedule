@@ -86,16 +86,7 @@ export const SpecializationSelect = <T extends FieldValues>({
     });
 
   useEffect(() => {
-    const isSelectedIdReady = selectedSpecializationId
-      ? selectedSpecializationLoaded
-      : true;
-
-    if (
-      form.control &&
-      specializations &&
-      !isSpecializationsLoading &&
-      isSelectedIdReady
-    ) {
+    if (form.control && specializations && !isSpecializationsLoading) {
       setIsReady(true);
       setTotalData(specializations.meta.total);
     }
@@ -119,7 +110,7 @@ export const SpecializationSelect = <T extends FieldValues>({
     combinedSpecializations.unshift(selectedSpecialization);
   }
 
-  if (!isReady) {
+  if (!isReady || !selectedSpecializationLoaded) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-5 w-44" />

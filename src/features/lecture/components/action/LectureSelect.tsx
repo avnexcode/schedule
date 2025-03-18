@@ -49,7 +49,6 @@ export const LectureSelect = <T extends FieldValues>({
       { id: selectedLectureId },
       {
         enabled: !!selectedLectureId,
-
         staleTime: Infinity,
       },
     );
@@ -85,9 +84,7 @@ export const LectureSelect = <T extends FieldValues>({
     });
 
   useEffect(() => {
-    const isSelectedIdReady = selectedLectureId ? selectedLectureLoaded : true;
-
-    if (form.control && lectures && !isLecturesLoading && isSelectedIdReady) {
+    if (form.control && lectures && !isLecturesLoading) {
       setIsReady(true);
       setTotalData(lectures.meta.total);
     }
@@ -109,7 +106,7 @@ export const LectureSelect = <T extends FieldValues>({
     combinedLectures.unshift(selectedLecture);
   }
 
-  if (!isReady) {
+  if (!isReady || !selectedLectureLoaded) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-5 w-44" />
