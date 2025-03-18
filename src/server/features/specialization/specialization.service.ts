@@ -30,7 +30,7 @@ export const specializationService = {
     const specializationExistsByName =
       await specializationRepository.countUniqueName(
         request.name,
-        request.major_id,
+        request.majorId,
       );
 
     if (specializationExistsByName !== 0) {
@@ -43,7 +43,7 @@ export const specializationService = {
     const specializationExistsByAlias =
       await specializationRepository.countUniqueAlias(
         request.alias,
-        request.major_id,
+        request.majorId,
       );
 
     if (specializationExistsByAlias !== 0) {
@@ -72,7 +72,7 @@ export const specializationService = {
     const currentSpecializationByName =
       await specializationRepository.findUniqueName(
         request.name!,
-        request.major_id!,
+        request.majorId!,
       );
 
     if (currentSpecializationByName && currentSpecializationByName.id !== id) {
@@ -85,7 +85,7 @@ export const specializationService = {
     const currentSpecializationByAlias =
       await specializationRepository.findUniqueAlias(
         request.alias!,
-        request.major_id!,
+        request.majorId!,
       );
 
     if (
