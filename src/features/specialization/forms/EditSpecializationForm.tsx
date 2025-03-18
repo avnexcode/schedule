@@ -37,8 +37,7 @@ export const EditSpecializationForm = ({
   useEffect(() => {
     if (specialization) {
       form.reset({
-        name: specialization.name,
-        alias: specialization.alias,
+        ...specialization,
         majorId: specialization.major.id,
       });
     }

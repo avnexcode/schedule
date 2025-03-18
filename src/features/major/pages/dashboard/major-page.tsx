@@ -86,12 +86,14 @@ export const MajorPage = () => {
               />
             </div>
           </header>
+
           <main>
             <MajorTable
               majors={majors?.data}
               isMajorsLoading={isMajorsLoading}
             />
           </main>
+
           <footer className="py-5">
             <TablePagination
               total={majors?.meta.total ?? 0}

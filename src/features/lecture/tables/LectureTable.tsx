@@ -29,6 +29,7 @@ export const LectureTable = ({
         <TableRow>
           <TableHead className="w-[50px]">No</TableHead>
           <TableHead>Name</TableHead>
+          <TableHead className="w-[300px]">Major</TableHead>
           <TableHead className="w-[150px]">Action</TableHead>
         </TableRow>
       </TableHeader>
@@ -41,6 +42,7 @@ export const LectureTable = ({
             <TableRow>
               <TableCell>{index + 1}</TableCell>
               <TableCell className="capitalize">{lecture.name}</TableCell>
+              <TableCell className="capitalize">{lecture.major.name}</TableCell>
               <TableCell className="space-x-2">
                 <Link href={`/dashboard/lecture/${lecture.id}/edit`}>
                   <Button size={"sm"} variant={"outline"}>

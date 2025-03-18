@@ -24,6 +24,9 @@ export const LectureTableSkeleton = () => {
           <TableHead>
             <LectureTableCellSkeleton />
           </TableHead>
+          <TableHead className="w-[300px]">
+            <LectureTableCellSkeleton />
+          </TableHead>
           <TableHead className="w-[150px]">
             <LectureTableCellSkeleton />
           </TableHead>
@@ -42,6 +45,9 @@ export const LectureTableBodySkeleton = () => {
         keyExtractor: (_, index) => index,
         render: () => (
           <TableRow>
+            <TableCell>
+              <LectureTableCellSkeleton />
+            </TableCell>
             <TableCell>
               <LectureTableCellSkeleton />
             </TableCell>

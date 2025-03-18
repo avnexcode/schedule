@@ -17,6 +17,9 @@ model User {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([username])
+    @@index([name])
+    @@index([email])
     @@map("users")
 }
 
@@ -36,8 +39,10 @@ model Major {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([name])
     @@index([alias])
+    @@index([createdAt])
     @@map("majors")
 }
 
@@ -54,9 +59,11 @@ model Specialization {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([name])
     @@index([alias])
     @@index([majorId])
+    @@index([createdAt])
     @@map("specializations")
 }
 
@@ -76,8 +83,10 @@ model Lecture {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([name])
     @@index([majorId])
+    @@index([createdAt])
     @@map("lectures")
 }
 
@@ -91,8 +100,10 @@ model Room {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([name])
     @@index([majorId])
+    @@index([createdAt])
     @@map("rooms")
 }
 
@@ -106,8 +117,10 @@ model Course {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([name])
     @@index([majorId])
+    @@index([createdAt])
     @@map("courses")
 }
 
@@ -124,9 +137,11 @@ model Batch {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([label])
     @@index([year])
     @@index([majorId])
+    @@index([createdAt])
     @@map("batchs")
 }
 
@@ -145,8 +160,10 @@ model Time {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([label])
     @@index([majorId])
+    @@index([createdAt])
     @@map("times")
 }
 
@@ -177,10 +194,12 @@ model Schedule {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([majorId])
     @@index([batchId])
     @@index([specializationId])
     @@index([timeId])
+    @@index([createdAt])
     @@map("schedules")
 }
 
@@ -196,7 +215,9 @@ model HomeWork {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([id])
     @@index([label])
     @@index([scheduleId])
+    @@index([createdAt])
     @@map("home_works")
 }

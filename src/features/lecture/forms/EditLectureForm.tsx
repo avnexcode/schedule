@@ -20,6 +20,7 @@ type EditLectureFormProps = {
 
 export const EditLectureForm = ({ lectureId }: EditLectureFormProps) => {
   const router = useRouter();
+
   const form = useForm<UpdateLectureFormSchema>({
     defaultValues: {
       name: "",
@@ -35,8 +36,7 @@ export const EditLectureForm = ({ lectureId }: EditLectureFormProps) => {
   useEffect(() => {
     if (lecture) {
       form.reset({
-        name: lecture.name,
-        gender: lecture.gender,
+        ...lecture,
         majorId: lecture.major.id,
       });
     }

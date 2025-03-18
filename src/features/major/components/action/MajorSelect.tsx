@@ -36,10 +36,28 @@ export const MajorSelect = <T extends FieldValues>({
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [totalData, setTotalData] = useState<number>(0);
+  const [selectedMajorLoaded, setSelectedMajorLoaded] =
+    useState<boolean>(false);
 
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 15;
 
   const form = useFormContext<T>();
+  const selectedMajorId = form.watch(name);
+
+  const { data: selectedMajor, isLoading: isSelectedMajorLoading } =
+    api.major.getById.useQuery(
+      { id: selectedMajorId },
+      {
+        enabled: !!selectedMajorId,
+        staleTime: Infinity,
+      },
+    );
+
+  useEffect(() => {
+    if (selectedMajor && !isSelectedMajorLoading) {
+      setSelectedMajorLoaded(true);
+    }
+  }, [selectedMajor, isSelectedMajorLoading]);
 
   const {
     page,
@@ -66,11 +84,29 @@ export const MajorSelect = <T extends FieldValues>({
     });
 
   useEffect(() => {
-    if (form.control && majors && !isMajorsLoading) {
+    const isSelectedIdReady = selectedMajorId ? selectedMajorLoaded : true;
+
+    if (form.control && majors && !isMajorsLoading && isSelectedIdReady) {
       setIsReady(true);
       setTotalData(majors.meta.total);
     }
-  }, [form.control, majors, isMajorsLoading]);
+  }, [
+    form.control,
+    majors,
+    isMajorsLoading,
+    selectedMajorId,
+    selectedMajorLoaded,
+  ]);
+
+  const allMajors = majors?.data ?? [];
+  const combinedMajors = [...allMajors];
+
+  if (
+    selectedMajor &&
+    !allMajors.some((major) => major.id === selectedMajor.id)
+  ) {
+    combinedMajors.unshift(selectedMajor);
+  }
 
   if (!isReady) {
     return (
@@ -99,7 +135,9 @@ export const MajorSelect = <T extends FieldValues>({
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
+                <SelectValue placeholder={`Select ${label.toLowerCase()}`}>
+                  {selectedMajor?.name ?? `Select ${label.toLowerCase()}`}
+                </SelectValue>
               </SelectTrigger>
             </FormControl>
             <SelectContent>
@@ -109,14 +147,14 @@ export const MajorSelect = <T extends FieldValues>({
                 onClick={handleSearchInputClick}
               />
 
-              {isMajorsLoading ? (
+              {isMajorsLoading || isSelectedMajorLoading ? (
                 <div className="flex justify-center py-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
                 </div>
               ) : (
                 <>
                   {renderElements({
-                    of: majors?.data,
+                    of: combinedMajors,
                     keyExtractor: (major) => major.id,
                     render: (major) => (
                       <SelectItem

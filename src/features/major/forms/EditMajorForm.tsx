@@ -34,7 +34,7 @@ export const EditMajorForm = ({ majorId }: EditMajorFormProps) => {
 
   useEffect(() => {
     if (major) {
-      form.reset({ name: major.name, alias: major.alias });
+      form.reset(major);
     }
   }, [form, major]);
 

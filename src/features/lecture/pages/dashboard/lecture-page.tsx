@@ -44,14 +44,11 @@ export const LecturePage = () => {
   const { data: lectures, isLoading: isLecturesLoading } =
     api.lecture.getAll.useQuery(
       {
-        params: {
-          ...queryParams,
-        },
+        params: { ...queryParams },
       },
-      {
-        refetchOnWindowFocus: false,
-      },
+      { refetchOnWindowFocus: false },
     );
+
   return (
     <PageContainer title="">
       <SectionContainer padded>
@@ -89,6 +86,7 @@ export const LecturePage = () => {
               />
             </div>
           </header>
+
           <main>
             <LectureTable
               lectures={lectures?.data}

@@ -43,9 +43,12 @@ export const SpecializationPage = () => {
 
   const { data: specializations, isLoading: isSpecializationsLoading } =
     api.specialization.getAll.useQuery(
-      { params: { ...queryParams } },
+      {
+        params: { ...queryParams },
+      },
       { refetchOnWindowFocus: false },
     );
+
   return (
     <PageContainer>
       <SectionContainer padded>
@@ -83,6 +86,7 @@ export const SpecializationPage = () => {
               />
             </div>
           </header>
+
           <main>
             <SpecializationTable
               specializations={specializations?.data}

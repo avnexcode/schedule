@@ -14,6 +14,7 @@ import { CreateLectureFormInner } from "./CreateLectureFormInner";
 
 export const CreateLectureForm = () => {
   const router = useRouter();
+
   const form = useForm<CreateLectureFormSchema>({
     defaultValues: {
       name: "",

@@ -36,10 +36,30 @@ export const SpecializationSelect = <T extends FieldValues>({
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [totalData, setTotalData] = useState<number>(0);
+  const [selectedSpecializationLoaded, setSelectedSpecializationLoaded] =
+    useState<boolean>(false);
 
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 15;
 
   const form = useFormContext<T>();
+  const selectedSpecializationId = form.watch(name);
+
+  const {
+    data: selectedSpecialization,
+    isLoading: isSelectedSpecializationLoading,
+  } = api.specialization.getById.useQuery(
+    { id: selectedSpecializationId },
+    {
+      enabled: !!selectedSpecializationId,
+      staleTime: Infinity,
+    },
+  );
+
+  useEffect(() => {
+    if (selectedSpecialization && !isSelectedSpecializationLoading) {
+      setSelectedSpecializationLoaded(true);
+    }
+  }, [selectedSpecialization, isSelectedSpecializationLoading]);
 
   const {
     page,
@@ -66,11 +86,38 @@ export const SpecializationSelect = <T extends FieldValues>({
     });
 
   useEffect(() => {
-    if (form.control && specializations && !isSpecializationsLoading) {
+    const isSelectedIdReady = selectedSpecializationId
+      ? selectedSpecializationLoaded
+      : true;
+
+    if (
+      form.control &&
+      specializations &&
+      !isSpecializationsLoading &&
+      isSelectedIdReady
+    ) {
       setIsReady(true);
       setTotalData(specializations.meta.total);
     }
-  }, [form.control, specializations, isSpecializationsLoading]);
+  }, [
+    form.control,
+    specializations,
+    isSpecializationsLoading,
+    selectedSpecializationId,
+    selectedSpecializationLoaded,
+  ]);
+
+  const allSpecializations = specializations?.data ?? [];
+  const combinedSpecializations = [...allSpecializations];
+
+  if (
+    selectedSpecialization &&
+    !allSpecializations.some(
+      (specialization) => specialization.id === selectedSpecialization.id,
+    )
+  ) {
+    combinedSpecializations.unshift(selectedSpecialization);
+  }
 
   if (!isReady) {
     return (
@@ -99,7 +146,10 @@ export const SpecializationSelect = <T extends FieldValues>({
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
+                <SelectValue placeholder={`Select ${label.toLowerCase()}`}>
+                  {selectedSpecialization?.name ??
+                    `Select ${label.toLowerCase()}`}
+                </SelectValue>
               </SelectTrigger>
             </FormControl>
             <SelectContent>
@@ -109,14 +159,14 @@ export const SpecializationSelect = <T extends FieldValues>({
                 onClick={handleSearchInputClick}
               />
 
-              {isSpecializationsLoading ? (
+              {isSpecializationsLoading || isSelectedSpecializationLoading ? (
                 <div className="flex justify-center py-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
                 </div>
               ) : (
                 <>
                   {renderElements({
-                    of: specializations?.data,
+                    of: combinedSpecializations,
                     keyExtractor: (specialization) => specialization.id,
                     render: (specialization) => (
                       <SelectItem

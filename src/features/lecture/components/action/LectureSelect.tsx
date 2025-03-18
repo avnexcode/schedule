@@ -36,10 +36,29 @@ export const LectureSelect = <T extends FieldValues>({
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [totalData, setTotalData] = useState<number>(0);
+  const [selectedLectureLoaded, setSelectedLectureLoaded] =
+    useState<boolean>(false);
 
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 15;
 
   const form = useFormContext<T>();
+  const selectedLectureId = form.watch(name);
+
+  const { data: selectedLecture, isLoading: isSelectedLectureLoading } =
+    api.lecture.getById.useQuery(
+      { id: selectedLectureId },
+      {
+        enabled: !!selectedLectureId,
+
+        staleTime: Infinity,
+      },
+    );
+
+  useEffect(() => {
+    if (selectedLecture && !isSelectedLectureLoading) {
+      setSelectedLectureLoaded(true);
+    }
+  }, [selectedLecture, isSelectedLectureLoading]);
 
   const {
     page,
@@ -66,11 +85,29 @@ export const LectureSelect = <T extends FieldValues>({
     });
 
   useEffect(() => {
-    if (form.control && lectures && !isLecturesLoading) {
+    const isSelectedIdReady = selectedLectureId ? selectedLectureLoaded : true;
+
+    if (form.control && lectures && !isLecturesLoading && isSelectedIdReady) {
       setIsReady(true);
       setTotalData(lectures.meta.total);
     }
-  }, [form.control, lectures, isLecturesLoading]);
+  }, [
+    form.control,
+    lectures,
+    isLecturesLoading,
+    selectedLectureId,
+    selectedLectureLoaded,
+  ]);
+
+  const allLectures = lectures?.data ?? [];
+  const combinedLectures = [...allLectures];
+
+  if (
+    selectedLecture &&
+    !allLectures.some((lecture) => lecture.id === selectedLecture.id)
+  ) {
+    combinedLectures.unshift(selectedLecture);
+  }
 
   if (!isReady) {
     return (
@@ -99,7 +136,9 @@ export const LectureSelect = <T extends FieldValues>({
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
+                <SelectValue placeholder={`Select ${label.toLowerCase()}`}>
+                  {selectedLecture?.name ?? `Select ${label.toLowerCase()}`}
+                </SelectValue>
               </SelectTrigger>
             </FormControl>
             <SelectContent>
@@ -109,14 +148,14 @@ export const LectureSelect = <T extends FieldValues>({
                 onClick={handleSearchInputClick}
               />
 
-              {isLecturesLoading ? (
+              {isLecturesLoading || isSelectedLectureLoading ? (
                 <div className="flex justify-center py-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
                 </div>
               ) : (
                 <>
                   {renderElements({
-                    of: lectures?.data,
+                    of: combinedLectures,
                     keyExtractor: (lecture) => lecture.id,
                     render: (lecture) => (
                       <SelectItem
