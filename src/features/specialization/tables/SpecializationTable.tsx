@@ -50,7 +50,7 @@ export const SpecializationTable = ({
               <TableCell className="capitalize">
                 {specialization.major.name}
               </TableCell>
-              <TableCell className="space-x-2">
+              <TableCell className="space-x-2 text-nowrap">
                 <Link
                   href={`/dashboard/specialization/${specialization.id}/edit`}
                 >

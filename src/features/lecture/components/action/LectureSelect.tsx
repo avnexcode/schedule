@@ -84,7 +84,8 @@ export const LectureSelect = <T extends FieldValues>({
     });
 
   useEffect(() => {
-    if (form.control && lectures && !isLecturesLoading) {
+    const isSelectedIdReady = selectedLectureId ? selectedLectureLoaded : true;
+    if (form.control && lectures && !isLecturesLoading && isSelectedIdReady) {
       setIsReady(true);
       setTotalData(lectures.meta.total);
     }
@@ -106,7 +107,7 @@ export const LectureSelect = <T extends FieldValues>({
     combinedLectures.unshift(selectedLecture);
   }
 
-  if (!isReady || !selectedLectureLoaded) {
+  if (!isReady) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-5 w-44" />

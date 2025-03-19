@@ -41,7 +41,7 @@ export const MajorTable = ({ majors, isMajorsLoading }: MajorTableProps) => {
                 {major.name}{" "}
                 <span className="font-bold uppercase">({major.alias})</span>
               </TableCell>
-              <TableCell className="space-x-2">
+              <TableCell className="space-x-2 text-nowrap">
                 <Link href={`/dashboard/major/${major.id}/edit`}>
                   <Button size={"sm"} variant={"outline"}>
                     <SquarePen />

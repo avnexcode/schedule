@@ -36,8 +36,6 @@ export const MajorSelect = <T extends FieldValues>({
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [totalData, setTotalData] = useState<number>(0);
-  const [selectedMajorLoaded, setSelectedMajorLoaded] =
-    useState<boolean>(false);
 
   const ITEMS_PER_PAGE = 15;
 
@@ -66,12 +64,6 @@ export const MajorSelect = <T extends FieldValues>({
       },
     );
 
-  useEffect(() => {
-    if (selectedMajor && !isSelectedMajorLoading) {
-      setSelectedMajorLoaded(true);
-    }
-  }, [selectedMajor, isSelectedMajorLoading]);
-
   const { data: majors, isLoading: isMajorsLoading } =
     api.major.getAll.useQuery({
       params: {
@@ -88,13 +80,7 @@ export const MajorSelect = <T extends FieldValues>({
       setIsReady(true);
       setTotalData(majors.meta.total);
     }
-  }, [
-    form.control,
-    majors,
-    isMajorsLoading,
-    selectedMajorId,
-    selectedMajorLoaded,
-  ]);
+  }, [form.control, majors, isMajorsLoading]);
 
   const allMajors = majors?.data ?? [];
   const combinedMajors = [...allMajors];
@@ -106,7 +92,7 @@ export const MajorSelect = <T extends FieldValues>({
     combinedMajors.unshift(selectedMajor);
   }
 
-  if (!isReady || !selectedMajorLoaded) {
+  if (!isReady) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-5 w-44" />

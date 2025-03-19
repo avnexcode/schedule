@@ -13,6 +13,7 @@ import Link from "next/link";
 import { DeleteLectureDialog } from "../components/action";
 import { LectureTableBodySkeleton } from "../components/skeleton";
 import type { LectureData } from "../types";
+import { type Gender } from "@prisma/client";
 
 type LectureTableProps = {
   lectures?: LectureData[];
@@ -23,6 +24,9 @@ export const LectureTable = ({
   lectures,
   isLecturesLoading,
 }: LectureTableProps) => {
+  const displayGender = (gender: Gender) =>
+    gender === "MALE" ? "Mr." : "Mrs.";
+
   return (
     <Table>
       <TableHeader>
@@ -41,9 +45,11 @@ export const LectureTable = ({
           render: (lecture, index) => (
             <TableRow>
               <TableCell>{index + 1}</TableCell>
-              <TableCell className="capitalize">{lecture.name}</TableCell>
+              <TableCell className="capitalize">
+                {displayGender(lecture.gender)} {lecture.name}
+              </TableCell>
               <TableCell className="capitalize">{lecture.major.name}</TableCell>
-              <TableCell className="space-x-2">
+              <TableCell className="space-x-2 text-nowrap">
                 <Link href={`/dashboard/lecture/${lecture.id}/edit`}>
                   <Button size={"sm"} variant={"outline"}>
                     <SquarePen />
