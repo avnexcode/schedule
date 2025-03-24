@@ -51,10 +51,13 @@ export const DeleteLectureDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="bg-primary text-primary-foreground hover:bg-primary/90">
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleteLecturePending}
+            className="bg-red-500 text-zinc-200"
           >
             Continue
           </AlertDialogAction>

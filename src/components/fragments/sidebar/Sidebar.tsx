@@ -1,31 +1,18 @@
 import {
   Sidebar as SidebarComponent,
   SidebarContent,
-  SidebarGroupContent,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { env } from "@/configs/env";
 import { renderElements } from "@/utils/render-elements";
-import { LogOut } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { sidebarMenu } from "./sidebar-menu";
 import { SidebarGroup } from "./SidebarGroup";
-import { SidebarGroup as SidebarGroupComponent } from "@/components/ui/sidebar";
-import Link from "next/link";
-import { supabase } from "@/lib/supabase/client";
-import { useRouter } from "next/router";
-import { usePathname } from "next/navigation";
-import { env } from "@/configs/env";
+import { SidebarAction } from "./SidebarAction";
 
 export function Sidebar() {
-  const router = useRouter();
   const pathname = usePathname();
-
-  const logout = async () => {
-    await supabase.auth.signOut();
-    void router.replace("/login");
-  };
 
   return (
     <SidebarComponent collapsible="offcanvas">
@@ -44,18 +31,7 @@ export function Sidebar() {
             />
           ),
         })}
-        <SidebarGroupComponent className="absolute bottom-5 w-full">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="py-5" onClick={logout}>
-                  <LogOut />
-                  Logout
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroupComponent>
+        <SidebarAction />
       </SidebarContent>
     </SidebarComponent>
   );

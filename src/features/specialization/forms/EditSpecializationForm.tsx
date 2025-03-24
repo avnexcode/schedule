@@ -32,7 +32,10 @@ export const EditSpecializationForm = ({
   });
 
   const { data: specialization, isLoading: isSpecializationLoading } =
-    api.specialization.getById.useQuery({ id: specializationId });
+    api.specialization.getById.useQuery(
+      { id: specializationId },
+      { enabled: !!specializationId },
+    );
 
   useEffect(() => {
     if (specialization) {

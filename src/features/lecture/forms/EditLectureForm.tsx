@@ -31,7 +31,7 @@ export const EditLectureForm = ({ lectureId }: EditLectureFormProps) => {
   });
 
   const { data: lecture, isLoading: isLectureLoading } =
-    api.lecture.getById.useQuery({ id: lectureId });
+    api.lecture.getById.useQuery({ id: lectureId }, { enabled: !!lectureId });
 
   useEffect(() => {
     if (lecture) {

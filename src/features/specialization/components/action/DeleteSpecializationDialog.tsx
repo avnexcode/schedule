@@ -53,10 +53,13 @@ export const DeleteSpecializationDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="bg-primary text-primary-foreground hover:bg-primary/90">
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleteSpecializationPending}
+            className="bg-red-500 text-zinc-200"
           >
             Continue
           </AlertDialogAction>

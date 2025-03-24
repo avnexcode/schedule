@@ -30,6 +30,7 @@ export const EditMajorForm = ({ majorId }: EditMajorFormProps) => {
 
   const { data: major, isLoading: isMajorLoading } = api.major.getById.useQuery(
     { id: majorId },
+    { enabled: !!majorId },
   );
 
   useEffect(() => {
